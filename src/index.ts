@@ -27,7 +27,7 @@ app.get("/health", (c) => {
 
 app.route("/api/v1", routes);
 
-const port = parseInt(getEnv("PORT", "3001")!);
+const port = parseInt(getEnv("PORT", "8022")!);
 
 initDatabase()
   .then(() => {
