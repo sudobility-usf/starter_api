@@ -22,7 +22,7 @@ app.get("/", (c) => {
 });
 
 app.get("/health", (c) => {
-  return c.json(successResponse({ status: "healthy" }));
+  return c.json(successResponse({ status: "ok", version: "1.0.0" }));
 });
 
 app.route("/api/v1", routes);
