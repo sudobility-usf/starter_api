@@ -25,7 +25,7 @@ RUN groupadd -g 1001 appuser && \
     useradd -r -u 1001 -g appuser appuser
 
 # Copy package files first for better caching
-COPY package.json bun.lock* bunfig.toml ./
+COPY package.json bun.lock* bunfig.toml* ./
 
 # Setup npm authentication for private packages
 RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc && \
