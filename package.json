@@ -1,6 +1,6 @@
 {
   "name": "starter_api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "description": "Starter API - Hono backend with PostgreSQL + Drizzle ORM",
   "scripts": {
@@ -17,9 +17,9 @@
     "verify": "bun run typecheck && bun run lint && bun run test && bun run build"
   },
   "dependencies": {
-    "@sudobility/auth_service": "^1.1.7",
+    "@sudobility/auth_service": "^1.1.9",
     "@sudobility/starter_types": "^0.0.1",
-    "@sudobility/types": "^1.9.53",
+    "@sudobility/types": "^1.9.54",
     "drizzle-orm": "^0.44.2",
     "firebase-admin": "^13.4.0",
     "hono": "^4.7.0",
