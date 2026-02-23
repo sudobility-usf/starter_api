@@ -8,6 +8,7 @@ import type {
   HistoryCreateRequest,
   HistoryUpdateRequest,
 } from "@sudobility/starter_types";
+import { isValidDatetime } from "../lib/serializers";
 
 describe("histories route logic", () => {
   describe("response formatting", () => {
@@ -72,6 +73,18 @@ describe("histories route logic", () => {
       const value = "not a number" as any;
       const isValid = typeof value === "number" && value > 0;
       expect(isValid).toBe(false);
+    });
+
+    it("should reject invalid datetime string", () => {
+      expect(isValidDatetime("not-a-date")).toBe(false);
+    });
+
+    it("should accept valid ISO 8601 datetime", () => {
+      expect(isValidDatetime("2024-01-15T10:30:00.000Z")).toBe(true);
+    });
+
+    it("should reject empty datetime string", () => {
+      expect(isValidDatetime("")).toBe(false);
     });
   });
 
@@ -138,6 +151,100 @@ describe("histories route logic", () => {
       const isValid = typeof value === "number" && value > 0;
       expect(isValid).toBe(false);
     });
+
+    it("should reject invalid datetime in update", () => {
+      const datetime = "not-a-date";
+      expect(isValidDatetime(datetime)).toBe(false);
+    });
+
+    it("should accept valid datetime in update", () => {
+      const datetime = "2024-06-01T12:00:00Z";
+      expect(isValidDatetime(datetime)).toBe(true);
+    });
+  });
+
+  describe("pagination logic", () => {
+    const DEFAULT_LIMIT = 50;
+    const MAX_LIMIT = 200;
+
+    function parsePagination(params: {
+      limit?: string;
+      offset?: string;
+      orderBy?: string;
+    }) {
+      const limit = Math.min(
+        Math.max(1, parseInt(params.limit || String(DEFAULT_LIMIT), 10) || DEFAULT_LIMIT),
+        MAX_LIMIT
+      );
+      const offset = Math.max(0, parseInt(params.offset || "0", 10) || 0);
+      const orderDirection = params.orderBy === "asc" ? "asc" : "desc";
+      return { limit, offset, orderDirection };
+    }
+
+    it("should use default limit when not specified", () => {
+      const result = parsePagination({});
+      expect(result.limit).toBe(50);
+    });
+
+    it("should use default offset when not specified", () => {
+      const result = parsePagination({});
+      expect(result.offset).toBe(0);
+    });
+
+    it("should use desc order by default", () => {
+      const result = parsePagination({});
+      expect(result.orderDirection).toBe("desc");
+    });
+
+    it("should respect explicit limit", () => {
+      const result = parsePagination({ limit: "20" });
+      expect(result.limit).toBe(20);
+    });
+
+    it("should cap limit at MAX_LIMIT", () => {
+      const result = parsePagination({ limit: "500" });
+      expect(result.limit).toBe(200);
+    });
+
+    it("should enforce minimum limit of 1", () => {
+      const result = parsePagination({ limit: "0" });
+      expect(result.limit).toBe(DEFAULT_LIMIT);
+    });
+
+    it("should handle negative limit by clamping to 1", () => {
+      const result = parsePagination({ limit: "-5" });
+      expect(result.limit).toBe(1);
+    });
+
+    it("should respect explicit offset", () => {
+      const result = parsePagination({ offset: "100" });
+      expect(result.offset).toBe(100);
+    });
+
+    it("should enforce minimum offset of 0", () => {
+      const result = parsePagination({ offset: "-10" });
+      expect(result.offset).toBe(0);
+    });
+
+    it("should accept asc order", () => {
+      const result = parsePagination({ orderBy: "asc" });
+      expect(result.orderDirection).toBe("asc");
+    });
+
+    it("should default to desc for invalid orderBy", () => {
+      const result = parsePagination({ orderBy: "invalid" });
+      expect(result.orderDirection).toBe("desc");
+    });
+
+    it("should handle non-numeric limit gracefully", () => {
+      const result = parsePagination({ limit: "abc" });
+      expect(result.limit).toBe(DEFAULT_LIMIT);
+    });
+
+    it("should handle non-numeric offset gracefully", () => {
+      const result = parsePagination({ offset: "abc" });
+      expect(result.offset).toBe(0);
+    });
   });
 
   describe("error responses", () => {
@@ -159,6 +266,14 @@ describe("histories route logic", () => {
       );
       expect(response.success).toBe(false);
       expect(response.error).toBe("datetime and value are required");
+    });
+
+    it("should format datetime validation error", () => {
+      const response = errorResponse(
+        "datetime must be a valid ISO 8601 date string"
+      );
+      expect(response.success).toBe(false);
+      expect(response.error).toContain("ISO 8601");
     });
   });
 });

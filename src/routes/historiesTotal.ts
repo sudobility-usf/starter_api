@@ -5,7 +5,17 @@ import { successResponse } from "@sudobility/starter_types";
 
 const historiesTotalRouter = new Hono();
 
-// GET /total - Get total of all history values (public)
+/**
+ * GET /total - Get the global total of all history values.
+ *
+ * This is a **public** endpoint (no authentication required).
+ * It aggregates the sum of all `value` fields across all history records
+ * in the database using a SQL `SUM` aggregation.
+ *
+ * Returns 0 if no history records exist (via `COALESCE`).
+ *
+ * @returns {BaseResponse<HistoryTotalResponse>} Object with a `total` number field
+ */
 historiesTotalRouter.get("/total", async (c) => {
   const result = await db
     .select({

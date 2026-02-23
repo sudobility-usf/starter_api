@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { initDatabase } from "./db";
 import routes from "./routes";
-import { successResponse } from "@sudobility/starter_types";
+import { successResponse, errorResponse } from "@sudobility/starter_types";
 import { getEnv } from "./lib/env-helper";
 
 const app = new Hono();
@@ -11,6 +11,27 @@ const app = new Hono();
 app.use("*", logger());
 app.use("*", cors());
 
+/**
+ * Global error handler for unhandled exceptions.
+ *
+ * Catches any errors that propagate from route handlers or middleware
+ * (e.g., database connection failures, constraint violations, unexpected runtime errors)
+ * and returns a properly formatted `errorResponse` with a 500 status code.
+ *
+ * This prevents raw stack traces from being exposed in production responses.
+ * The original error is logged to stderr for debugging purposes.
+ */
+app.onError((err, c) => {
+  console.error("Unhandled error:", err);
+  return c.json(errorResponse("Internal server error"), 500);
+});
+
+/**
+ * GET / - Root endpoint returning API metadata.
+ *
+ * Public endpoint that returns the API name, version, and health status.
+ * Useful for service discovery and basic connectivity checks.
+ */
 app.get("/", (c) => {
   return c.json(
     successResponse({
@@ -21,6 +42,13 @@ app.get("/", (c) => {
   );
 });
 
+/**
+ * GET /health - Health check endpoint.
+ *
+ * Public endpoint that returns a simple health status.
+ * Used by load balancers, container orchestrators, and monitoring systems
+ * to determine if the service is running.
+ */
 app.get("/health", (c) => {
   return c.json(successResponse({ status: "ok", version: "1.0.0" }));
 });

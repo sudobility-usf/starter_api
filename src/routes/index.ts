@@ -4,6 +4,18 @@ import usersRouter from "./users";
 import historiesRouter from "./histories";
 import historiesTotalRouter from "./historiesTotal";
 
+/**
+ * Aggregated API routes for the `/api/v1` prefix.
+ *
+ * Route structure:
+ * - **Public** (no auth): `/histories/total` - Global history total
+ * - **Authenticated**: `/users/:userId` - User profile
+ * - **Authenticated**: `/users/:userId/histories` - User history CRUD with pagination
+ *
+ * The Firebase auth middleware is applied to all authenticated routes,
+ * setting context variables (`firebaseUser`, `userId`, `userEmail`, `siteAdmin`)
+ * for downstream handlers.
+ */
 const routes = new Hono();
 
 // Public routes (no auth required)
