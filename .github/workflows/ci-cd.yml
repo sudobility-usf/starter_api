@@ -26,4 +26,7 @@ jobs:
     with:
       docker-image-name: "starter_api"
       skip-npm-publish: true # This is an API server, not an NPM library
-    secrets: inherit # Pass all repository secrets
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
