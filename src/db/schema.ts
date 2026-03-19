@@ -75,7 +75,7 @@ export const histories = starterSchema.table(
     created_at: timestamp("created_at").defaultNow(),
     updated_at: timestamp("updated_at").defaultNow(),
   },
-  (table) => ({
+  table => ({
     userIdx: index("starter_histories_user_idx").on(table.user_id),
   })
 );
