@@ -59,7 +59,7 @@ const port = parseInt(getEnv("PORT", "8022")!);
 
 initDatabase()
   .then(() => {
-    console.log(`Starter API running on http://localhost:${port}`);
+    console.warn(`Starter API running on http://localhost:${port}`);
   })
   .catch(err => {
     console.error("Failed to initialize database:", err);

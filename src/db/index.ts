@@ -92,7 +92,7 @@ export async function initDatabase() {
     ON starter.histories(user_id)
   `;
 
-  console.log("Database tables initialized");
+  console.warn("Database tables initialized");
 }
 
 /**
