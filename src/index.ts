@@ -3,7 +3,12 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { initDatabase } from "./db";
 import routes from "./routes";
-import { successResponse, errorResponse } from "@sudobility/starter_types";
+import {
+  successResponse,
+  errorResponse,
+  type ApiInfoResponse,
+  type HealthResponse,
+} from "@sudobility/starter_types";
 import { getEnv } from "./lib/env-helper";
 
 const app = new Hono();
@@ -33,13 +38,12 @@ app.onError((err, c) => {
  * Useful for service discovery and basic connectivity checks.
  */
 app.get("/", c => {
-  return c.json(
-    successResponse({
-      name: "Starter API",
-      version: "1.0.0",
-      status: "healthy",
-    })
-  );
+  const data: ApiInfoResponse = {
+    name: "Starter API",
+    version: "1.0.0",
+    status: "healthy",
+  };
+  return c.json(successResponse(data));
 });
 
 /**
@@ -50,7 +54,8 @@ app.get("/", c => {
  * to determine if the service is running.
  */
 app.get("/health", c => {
-  return c.json(successResponse({ status: "ok", version: "1.0.0" }));
+  const data: HealthResponse = { status: "ok", version: "1.0.0" };
+  return c.json(successResponse(data));
 });
 
 app.route("/api/v1", routes);
