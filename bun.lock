@@ -5,9 +5,9 @@
     "": {
       "name": "starter_api",
       "dependencies": {
-        "@sudobility/auth_service": "^1.1.16",
-        "@sudobility/starter_types": "^0.0.13",
-        "@sudobility/types": "^1.9.61",
+        "@sudobility/auth_service": "^1.1.17",
+        "@sudobility/starter_types": "^0.0.14",
+        "@sudobility/types": "^1.9.62",
         "drizzle-orm": "^0.44.2",
         "firebase-admin": "^13.4.0",
         "hono": "^4.7.0",
@@ -221,11 +221,11 @@
 
     "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
 
-    "@sudobility/auth_service": ["@sudobility/auth_service@1.1.16", "", { "peerDependencies": { "@sudobility/types": "^1.9.61", "firebase-admin": "^13.0.0" } }, "sha512-pcooLbL+7M46GmzczIfXt56kntPMWSYHLEMKLXXeOGxOx5O8E6OdPeeUKD1j9pjx+R2EUiyw12QOFgRf4I/b5w=="],
+    "@sudobility/auth_service": ["@sudobility/auth_service@1.1.17", "", { "peerDependencies": { "@sudobility/types": "^1.9.62", "firebase-admin": "^13.0.0" } }, "sha512-RrjLMftyj2p7KCp09J7jPEuRzW+Jngsw7KwW/xLe76DdhtlTt6NK3sceT0VtQm9BfDs4WhsjY6AuyFYtX7gGAw=="],
 
-    "@sudobility/starter_types": ["@sudobility/starter_types@0.0.13", "", { "peerDependencies": { "@sudobility/types": "^1.9.61" } }, "sha512-jPGZZnYOfLIKefnSlHr3huXNT+lQvDmp/1QsOvP/Djlwl92t9Cg4wc8KOvSJuNtRQyhkdiWSP+5PbjeN576rHw=="],
+    "@sudobility/starter_types": ["@sudobility/starter_types@0.0.14", "", { "peerDependencies": { "@sudobility/types": "^1.9.62" } }, "sha512-TpPsw7GWZDc4DGo2FO5SJJpx0Eul/YSIIUrhRD8kPrJz6TOq7VSUm/BsetyMflNDqb4AnnO+qYX7JjWRItWMYg=="],
 
-    "@sudobility/types": ["@sudobility/types@1.9.61", "", {}, "sha512-SODGpstB/iKfK3H/4BvJx/FBcc1h3gutUjGotyxN19VnOfWyzaDoEmW7eyoxOAYhZyXMXagSiii+NIEZvuxKog=="],
+    "@sudobility/types": ["@sudobility/types@1.9.62", "", {}, "sha512-GOkz5oE7Fmlolba2aemBF2fKPtH4I2lHAjVta+fqZAoAV72DQaWYzVEjTwKZs/ACY/g9Z262IDa7lEh+IOrn7w=="],
 
     "@tootallnate/once": ["@tootallnate/once@2.0.0", "", {}, "sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A=="],
 
